@@ -2,6 +2,8 @@
 #define DRAWING_AREA_H
 
 #include <QLabel>
+#include <QTimer>
+#include <chrono>
 
 class drawing_area : public QLabel
 {
@@ -11,6 +13,10 @@ public:
 
 private:
     void paintEvent(QPaintEvent*) override;
+
+private:
+    QTimer timer;
+    std::chrono::high_resolution_clock::time_point start_time;
 };
 
 #endif // DRAWING_AREA_H
