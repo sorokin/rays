@@ -41,9 +41,10 @@ namespace
         for (size_t y = 0; y != target_height; y += 1)
         {
             unsigned char* dst = target_bits;
+            point_3<float> ray_dir_y = cam.direction + ((float)(std::ptrdiff_t)y - (std::ptrdiff_t)(target_height / 2)) * step_y * cam.up;
             for (size_t x = 0; x != target_width; x += 4)
             {
-                point_3<float> ray_dir = cam.direction + ((float)x - target_width / 2) * step_x * right + ((float)y - (target_height / 2)) * step_y * cam.up;
+                point_3<float> ray_dir = ray_dir_y + ((float)(std::ptrdiff_t)x - (std::ptrdiff_t)(target_width / 2)) * step_x * right;
 
                 ray<pfloat> r(cam.origin, normalized(ray_dir + ray_offsets));
 
