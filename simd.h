@@ -1,6 +1,8 @@
 #pragma once
 
 #include <emmintrin.h>
+#include <smmintrin.h>
+#include "point.h"
 
 struct pfloat
 {
@@ -45,6 +47,12 @@ inline pfloat operator-(pfloat a, pfloat b)
 inline pfloat operator*(pfloat a, pfloat b)
 {
     return _mm_mul_ps(a.values, b.values);
+}
+
+inline pfloat& operator*=(pfloat& a, pfloat b)
+{
+    a.values = _mm_mul_ps(a.values, b.values);
+    return a;
 }
 
 inline pfloat operator/(pfloat a, pfloat b)
@@ -132,6 +140,23 @@ inline pfloat operator&(pfloat a, pmask b)
     return _mm_and_ps(a.values, b.values);
 }
 
+inline pfloat blend(pfloat iffalse, pfloat iftrue, pmask m)
+{
+    return _mm_blendv_ps(iffalse.values, iftrue.values, m.values);
+}
+
+inline void conditional_assign(pfloat& lhs, pfloat rhs, pmask m)
+{
+    lhs = blend(lhs, rhs, m);
+}
+
+inline void conditional_assign(point_3<pfloat>& lhs, point_3<pfloat> rhs, pmask m)
+{
+    conditional_assign(lhs.x, rhs.x, m);
+    conditional_assign(lhs.y, rhs.y, m);
+    conditional_assign(lhs.z, rhs.z, m);
+}
+
 struct pint
 {
     pint() = default;
@@ -142,6 +167,11 @@ struct pint
 
     __m128i values;
 };
+
+inline pint operator|(pint a, pint b)
+{
+    return _mm_or_si128(a.values, b.values);
+}
 
 inline pint to_pint(pfloat a)
 {

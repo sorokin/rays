@@ -4,6 +4,8 @@
 template <typename T>
 struct camera
 {
+    camera() = default;
+
     camera(point_3<T> origin,
            point_3<T> direction,
            point_3<T> up,

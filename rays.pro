@@ -22,12 +22,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-QMAKE_CXXFLAGS += -ffast-math -std=c++17
+QMAKE_CXXFLAGS += -ffast-math -std=c++17 -msse4.1
 
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    drawing_area.cpp
+    drawing_area.cpp \
+    scene.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -37,7 +38,8 @@ HEADERS += \
     intersect.h \
     camera.h \
     drawing_area.h \
-    simd.h
+    simd.h \
+    scene.h
 
 FORMS += \
         mainwindow.ui
